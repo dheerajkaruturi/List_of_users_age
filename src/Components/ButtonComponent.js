@@ -4,7 +4,7 @@ const ButtonComponent = (props) => {
   };
   return (
     <div className="mt-3 text-right">
-      <button type="submit" className="btn btn-light" onClick={clicked}>
+      <button type="submit" className="btn btn-outline-primary" onClick={clicked}>
         {props.children}
       </button>
     </div>

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import ButtonComponent from "./ButtonComponent";
 import Card from "./Card";
-
+import ModalComponent from "./ModalComponent";
 
 const FormComponent = (props) => {
   // catching the data entered by the user:
+  const [error, setError] = useState();
   const [oldName, newName] = useState("");
   const nameEnteredHandler = (event) => {
     newName(event.target.value);
@@ -18,12 +19,20 @@ const FormComponent = (props) => {
 
     // basic validations:
     if (oldName.trim().length === 0 || oldAge.trim().length === 0) {
-      alert("fill the fields");
+      //alert("fill the fields");
+      setError({
+        title: "Invalid Input",
+        message: "Please enter valid name and age 🤦🏼‍♂️🤦🏼‍♂️🤦🏼‍♂️",
+      });
       return;
     }
     // Note: value given in the input box is a string so we need to consider the string value hence added plus infront of the oldAge variable.
     if (+oldAge < 1) {
-      alert("invalid age");
+      //alert("invalid age");
+      setError({
+        title: "Invalid Input",
+        message: "Please enter valid age (should be > 0)🤦🏼‍♂️🤦🏼‍♂️🤦🏼‍♂️ ",
+      });
       return;
     }
 
@@ -37,8 +46,21 @@ const FormComponent = (props) => {
     newName("");
     newAge("");
   };
+
+  // now we need to clear our error state, as if have an error it is truthy value so to get rid of that we need to make it a falsy stmt.
+  const errorHandler = (props) => {
+    setError(null);
+  };
   return (
     <div>
+      {/* conditionally show the error in jsx code */}
+      {error && (
+        <ModalComponent
+          title={error.title}
+          content={error.message}
+          on_toCloseModal={errorHandler}
+        ></ModalComponent>
+      )}
       <Card>
         <form className="p-3" onSubmit={formSubmission}>
           <div className="container">
